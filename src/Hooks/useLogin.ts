@@ -1,6 +1,6 @@
 export default function useLogin() {
   return {
-    loggedIn: true,
-    admin: true,
+    isLoggedIn: true,
+    isAdmin: true,
   };
 }

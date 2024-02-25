@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import LoginRouter from "./src/Pages-Main/LoginRouter";
+import LoginRouter from "./src/Pages/LoginRouter";
 
 export default function App() {
   return (

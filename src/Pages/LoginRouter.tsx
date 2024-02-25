@@ -4,10 +4,10 @@ import LogIn from "./LogIn";
 import Root from "./Root";
 
 export default function LoginRouter() {
-  const { loggedIn, admin } = useLogin();
+  const { isLoggedIn, isAdmin } = useLogin();
 
-  if (loggedIn) {
-    return <Root admin={admin} />;
+  if (isLoggedIn) {
+    return <Root isAdmin={isAdmin} />;
   } else {
     return <LogIn />;
   }
