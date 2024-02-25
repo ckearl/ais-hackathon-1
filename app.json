@@ -1,5 +1,13 @@
 {
   "expo": {
+    "plugings": [
+      [
+        "expo-camera",
+        {
+          "cameraPermissions": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
+    ],
     "name": "ais-hackathon-02-2024",
     "slug": "ais-hackathon-02-2024",
     "version": "1.0.0",
@@ -11,9 +19,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
