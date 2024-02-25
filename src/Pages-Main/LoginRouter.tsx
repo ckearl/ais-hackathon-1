@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import useLogin from "./Hooks/useLogin";
+import useLogin from "../Hooks/useLogin";
 import LogIn from "./LogIn";
 import Root from "./Root";
 
