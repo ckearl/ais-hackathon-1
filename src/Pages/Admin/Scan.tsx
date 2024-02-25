@@ -31,6 +31,7 @@ export default function App() {
     <View style={styles.page}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        type={"back"}
         style={StyleSheet.absoluteFillObject}
       />
       {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}

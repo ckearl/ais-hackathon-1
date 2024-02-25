@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function useLogin(isLoggedInParam = false, isAdminParam = true) {
+export default function useLogin(isLoggedInParam = false, isAdminParam = false) {
   const [isLoggedIn, setIsLoggedIn] = useState(isLoggedInParam);
   const [isAdmin, setIsAdmin] = useState(isAdminParam);
 

@@ -15,8 +15,6 @@ const navbarStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingBottom: 20,
-    paddingTop: 10,
   },
 });
 
@@ -28,12 +26,12 @@ type TNavItemProps = {
 };
 
 export function NavItem({ route, icon, currRoute, setCurrRoute }: TNavItemProps) {
-  let currStyle;
-  if (route === currRoute) {
-    currStyle = { backgroundColor: "red" };
+  let itemStyle: any = navItemStyles.item;
+  if (currRoute === route) {
+    itemStyle = { ...itemStyle, backgroundColor: "lightblue" };
   }
   return (
-    <View style={{ ...navItemStyles.item, ...currStyle }}>
+    <View style={itemStyle}>
       <TouchableOpacity onPress={() => setCurrRoute(route)}>
         <Image source={icon} style={navItemStyles.img} />
       </TouchableOpacity>
@@ -47,7 +45,7 @@ const navItemStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
-    width: "25%",
+    padding: 15,
   },
   img: {
     width: 50,

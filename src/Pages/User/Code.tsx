@@ -1,6 +1,14 @@
 import React from "react";
-import { Text } from "react-native";
+import { Text, View } from "react-native";
+import QRCode from "react-native-qrcode-svg";
+const logo = require("../../icon.png");
 
 export default function Code() {
-  return <Text>Code</Text>;
+  let code;
+
+  return (
+    <View>
+      <QRCode value="cgp27" />
+    </View>
+  );
 }

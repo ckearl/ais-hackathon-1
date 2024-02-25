@@ -10,15 +10,18 @@
   },
   "dependencies": {
     "expo": "~50.0.7",
+    "expo-barcode-scanner": "~12.9.3",
+    "expo-camera": "~14.0.5",
+    "expo-image": "~1.10.6",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
     "react-native": "0.73.4",
-    "expo-camera": "~14.0.5",
-    "expo-barcode-scanner": "~12.9.3",
-    "expo-image": "~1.10.6"
+    "react-native-qrcode-svg": "^6.3.0",
+    "react-native-svg": "^14.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/qrcode": "^1.5.5",
     "@types/react": "~18.2.45",
     "typescript": "^5.1.3"
   },
