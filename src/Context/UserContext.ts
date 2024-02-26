@@ -8,7 +8,6 @@ export type User = {
 
 type UserContextType = {
   user: User;
-  setUser: (value: User) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
   isAdmin: boolean;
@@ -23,7 +22,6 @@ const UserContext = createContext<UserContextType>({
     netId: "",
     id: "",
   },
-  setUser: (value: User) => {},
   isLoggedIn: false,
   setIsLoggedIn: (value: boolean) => {},
   isAdmin: false,

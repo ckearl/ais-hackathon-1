@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Text, StyleSheet, View, Button } from "react-native";
-import LoginContext from "../Context/LoginContext";
+import UserContext from "../Context/UserContext";
 
 export default function LogIn() {
-  const { setIsLoggedIn, isLoggedIn } = useContext(LoginContext);
+  const { setIsLoggedIn, isLoggedIn } = useContext(UserContext);
   return (
     <View style={styles.page}>
       <Text style={styles.header}>Log in</Text>

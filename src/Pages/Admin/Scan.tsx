@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import UserContext from "../../Context/UserContext";
+import { TScanData } from "../../Types/ScanData";
+import SendScan from "../../Server/SendScan";
 
-function SelectEvent({ setEventSelected }: { setEventSelected: (arg0: boolean) => void }) {
-  return <Button title="select event" onPress={() => setEventSelected(true)} />;
+type TSelectEventProps = {
+  eventId: string;
+  setEventId: (arg0: string) => void;
+};
+
+function SelectEvent({ eventId, setEventId }: TSelectEventProps) {
+  return <Button title="select event" onPress={() => setEventId("1234")} />;
 }
 
-function Scanner() {
+function Scanner({ eventId }: { eventId: string }) {
   const [scanned, setScanned] = useState(false);
-  const [hasPermission, setHasPermission] = useState<null | boolean>(null);
-
-  if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
-
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getBarCodeScannerPermissions();
-  }, []);
+  const { user } = useContext(UserContext);
 
   const handleBarCodeScanned = ({ data }: { data: string }) => {
+    console.log(data);
     setScanned(true);
-    alert(`${data}`);
-  };
+    const [memberNetId, plusOne] = data.split("|");
+    const sendData: TScanData = {
+      memberNetId: memberNetId,
+      plusOne: plusOne,
+      adminNetId: user.netId,
+      eventId: eventId,
+    };
 
+    SendScan(sendData).then((res) => {
+      alert(JSON.stringify(res.data));
+    });
+  };
   return (
     <>
       <BarCodeScanner
@@ -48,11 +50,32 @@ function Scanner() {
 }
 
 export default function App() {
-  const [eventSelected, setEventSelected] = useState(false);
+  const [eventId, setEventId] = useState("");
+  const [hasPermission, setHasPermission] = useState<null | boolean>(null);
+
+  useEffect(() => {
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+
+    getBarCodeScannerPermissions();
+  }, []);
+
+  if (hasPermission === null) {
+    return <Text>Requesting camera permission</Text>;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   return (
     <View style={styles.page}>
-      {eventSelected ? <Scanner /> : <SelectEvent setEventSelected={setEventSelected} />}
+      {eventId ? (
+        <Scanner eventId={eventId} />
+      ) : (
+        <SelectEvent eventId={eventId} setEventId={setEventId} />
+      )}
     </View>
   );
 }
