@@ -7,20 +7,11 @@ import Constants from "./src/Constants";
 
 export default function App() {
   axios.defaults.baseURL = Constants.API_URL;
+  axios.defaults.timeout = 5000;
 
   return (
-    <UserContext.Provider value={useLogin()}>
-      <View style={styles.app}>
-        <LoginRouter />
-      </View>
-    </UserContext.Provider>
+    <View>
+      <LoginRouter />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  app: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-});

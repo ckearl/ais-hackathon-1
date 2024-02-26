@@ -1,13 +1,8 @@
 import { createContext } from "react";
+import { TEvent, TScan, TUser } from "../Types/db";
 
-export type User = {
-  name: string;
-  netId: string;
-  id: string;
-};
-
-type UserContextType = {
-  user: User;
+type TUserContextType = {
+  user: TUser;
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
   isAdmin: boolean;
@@ -16,12 +11,17 @@ type UserContextType = {
   setAdminView: (value: boolean) => void;
 };
 
-const UserContext = createContext<UserContextType>({
+const UserContext = createContext<TUserContextType>({
   user: {
-    name: "",
+    firstName: "",
+    lastName: "",
     netId: "",
-    id: "",
+    dateCreated: 0,
+    isAdmin: 0,
+    scans: [],
+    events: [],
   },
+
   isLoggedIn: false,
   setIsLoggedIn: (value: boolean) => {},
   isAdmin: false,

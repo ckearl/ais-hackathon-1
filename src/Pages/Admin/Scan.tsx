@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import UserContext from "../../Context/UserContext";
-import { TScanData } from "../../Types/ScanData";
+import { TScan } from "../../Types/db";
 import SendScan from "../../Server/SendScan";
+import axios from "axios";
 
 type TSelectEventProps = {
   eventId: string;
@@ -11,45 +12,67 @@ type TSelectEventProps = {
 };
 
 function SelectEvent({ eventId, setEventId }: TSelectEventProps) {
-  return <Button title="select event" onPress={() => setEventId("1234")} />;
+  eventId = Math.random().toString(36).substring(7);
+  return <Button title="select event" onPress={() => setEventId(eventId)} />;
 }
 
-function Scanner({ eventId }: { eventId: string }) {
-  const [scanned, setScanned] = useState(false);
-  const { user } = useContext(UserContext);
+type TScanStatus = "scanning" | "loading" | "ready" | "failed";
 
-  const handleBarCodeScanned = ({ data }: { data: string }) => {
-    console.log(data);
-    setScanned(true);
+function Scanner({ eventId }: { eventId: string }) {
+  const [scanStatus, setScanStatus] = useState<TScanStatus>("scanning");
+  const { user } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState("Tap to retry...");
+
+  const handleBarCodeScanned = async ({ data }: { data: string }) => {
+    setScanStatus("loading");
     const [memberNetId, plusOne] = data.split("|");
-    const sendData: TScanData = {
-      memberNetId: memberNetId,
-      plusOne: plusOne,
-      adminNetId: user.netId,
-      eventId: eventId,
+    const sendData: TScan = {
+      netId: memberNetId,
+      plusOne: Number(plusOne),
+      scannerId: user.netId,
+      eventId: Number(eventId),
     };
 
-    SendScan(sendData).then((res) => {
-      alert(JSON.stringify(res.data));
-    });
+    const res = await SendScan(sendData);
+
+    if (res?.data.status === "success") {
+      setScanStatus("ready");
+      return;
+    }
+
+    setScanStatus("failed");
+    setErrorMessage(res?.data.message);
   };
+
   return (
     <>
       <BarCodeScanner
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        onBarCodeScanned={scanStatus !== "scanning" ? undefined : handleBarCodeScanned}
         type={"back"}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && (
-        <TouchableOpacity style={styles.scanAgainButton} onPress={() => setScanned(false)}>
-          <Text style={styles.scanAgainText}> Tap to Scan Again</Text>
+      <Text>{scanStatus}</Text>
+
+      {scanStatus === "loading" && (
+        <View style={StyleSheet.absoluteFillObject}>
+          <Text>Loading...</Text>
+        </View>
+      )}
+      {scanStatus === "ready" && (
+        <TouchableOpacity style={styles.scanAgainButton} onPress={() => setScanStatus("scanning")}>
+          <Text style={styles.scanAgainText}>Success!! Tap to Scan Again...</Text>
+        </TouchableOpacity>
+      )}
+      {scanStatus === "failed" && (
+        <TouchableOpacity style={styles.scanAgainButton} onPress={() => setScanStatus("scanning")}>
+          <Text style={styles.scanAgainText}>Failed. {errorMessage}</Text>
         </TouchableOpacity>
       )}
     </>
   );
 }
 
-export default function App() {
+export default function Scan() {
   const [eventId, setEventId] = useState("");
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
 

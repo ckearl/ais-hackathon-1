@@ -1,12 +1,11 @@
 import axios from "axios";
 
-import { TScanData } from "../Types/ScanData";
-import Constants from "../Constants";
+import { TScanData } from "../Types/db";
 
 export default async function SendScan(data: TScanData) {
-  const res = await axios.post("/scan", data).then((res) => {
-    console.log("Scan sent");
+  const res = await axios.post("/InsertScan", data).then((res) => {
     return res;
   });
+
   return res;
 }
