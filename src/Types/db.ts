@@ -17,6 +17,7 @@ export type TUser = {
 };
 
 export type TEvent = {
+  eventId: number;
   createdBy: string;
   createdDate: number;
   editDate: number;
@@ -27,4 +28,5 @@ export type TEvent = {
   title: string;
   type: string;
   location: string;
+  waiverUrl: string;
 };

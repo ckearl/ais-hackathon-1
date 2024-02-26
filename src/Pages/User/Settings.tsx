@@ -25,6 +25,7 @@ const styles = {
     display: "flex",
     alignItems: "center",
   },
+
   p: {
     paddingBottom: 10,
   },

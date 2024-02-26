@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-const logo = require("../../icon.png");
 
 type TSelectPlusOneProps = {
   setPlusOne: (value: boolean) => void;
@@ -43,7 +42,10 @@ export default function Code() {
           <QRCode value={codeValue} size={200} />
         </View>
       ) : (
-        <SelectPlusOne setPlusOne={setPlusOne} setShowCode={setShowCode} />
+        <>
+          <Text style={styles.h1}>User Code</Text>
+          <SelectPlusOne setPlusOne={setPlusOne} setShowCode={setShowCode} />
+        </>
       )}
     </View>
   );
@@ -56,5 +58,11 @@ const styles = {
   },
   p: {
     paddingBottom: 20,
+  },
+  h1: {
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingBottom: 10,
+    textAlign: "center",
   },
 } as const;

@@ -12,11 +12,11 @@ export default function EventHistory() {
         const eventDate = new Date(event.startTime).toDateString();
         const eventTime = new Date(event.startTime).toLocaleTimeString();
         return (
-          <View key={i}>
+          <View key={i} style={styles.event}>
             <Text style={styles.h1}>{event.title}</Text>
             <Text style={styles.p}>{eventDate}</Text>
             <Text style={styles.p}>{eventTime}</Text>
-            <Text style={styles.p}>{eventTime}</Text>
+            <Text style={styles.p}>{event.location}</Text>
           </View>
         );
       })}
@@ -26,7 +26,7 @@ export default function EventHistory() {
 
 const styles = StyleSheet.create({
   component: {
-    padding: 10,
+    padding: 30,
   },
   h1: {
     fontSize: 24,
@@ -41,5 +41,10 @@ const styles = StyleSheet.create({
   p: {
     fontSize: 16,
     textAlign: "center",
+  },
+  event: {
+    padding: 20,
+    margin: 10,
+    backgroundColor: "lightgray",
   },
 });

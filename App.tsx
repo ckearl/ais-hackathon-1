@@ -9,9 +9,5 @@ export default function App() {
   axios.defaults.baseURL = Constants.API_URL;
   axios.defaults.timeout = 5000;
 
-  return (
-    <View>
-      <LoginRouter />
-    </View>
-  );
+  return <LoginRouter />;
 }

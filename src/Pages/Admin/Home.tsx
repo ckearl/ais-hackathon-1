@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 export default function Home() {
   return (
     <View style={styles.page}>
-      <Text style={styles.h1}>Admin Home</Text>
+      <Text style={styles.h1}>Home</Text>
       <Text style={styles.p}>Navigate to other pages</Text>
     </View>
   );

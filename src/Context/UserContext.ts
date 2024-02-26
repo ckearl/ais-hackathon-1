@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { TEvent, TScan, TUser } from "../Types/db";
+import { TUser } from "../Types/db";
 
 type TUserContextType = {
   user: TUser;

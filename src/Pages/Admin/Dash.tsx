@@ -4,7 +4,7 @@ import { Text, View } from "react-native";
 export default function Dash() {
   return (
     <View style={styles.page}>
-      <Text style={styles.h1}>Admin Dash</Text>
+      <Text style={styles.h1}>Dashboard</Text>
       <Text style={styles.p}>View upcoming events here</Text>
       <Text style={styles.p}>Add new events here</Text>
     </View>
