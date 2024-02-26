@@ -39,7 +39,7 @@ export default function Code() {
     <View>
       {showCode ? (
         <View style={styles.qr}>
-          <Text>Have an AIS officer scan this QR code to check in.</Text>
+          <Text style={styles.p}>Ask an AIS officer scan this QR code to check in.</Text>
           <QRCode value={codeValue} size={200} />
         </View>
       ) : (
@@ -53,5 +53,8 @@ const styles = {
   qr: {
     display: "flex",
     alignItems: "center",
+  },
+  p: {
+    paddingBottom: 20,
   },
 } as const;

@@ -4,6 +4,7 @@ import { Text, View } from "react-native";
 export default function Dash() {
   return (
     <View style={styles.page}>
+      <Text style={styles.h1}>User Dash</Text>
       <Text style={styles.p}>View your past attendance here</Text>
       <Text style={styles.p}>View upcoming events here</Text>
     </View>
@@ -16,6 +17,11 @@ const styles = {
     alignItems: "center",
   },
   p: {
+    paddingBottom: 10,
+  },
+  h1: {
+    fontSize: 20,
+    fontWeight: "bold",
     paddingBottom: 10,
   },
 } as const;

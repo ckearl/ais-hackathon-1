@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { Button, Text, View } from "react-native";
-import LoginContext from "../../Context/LoginContext";
+import UserContext from "../../Context/UserContext";
 
 export default function Settings() {
-  const { isAdmin, setAdminView } = useContext(LoginContext);
+  const { isAdmin, setAdminView } = useContext(UserContext);
 
   return (
     <View>
