@@ -5,6 +5,8 @@ const LoginContext = createContext({
   setIsLoggedIn: (value: boolean) => {},
   isAdmin: false,
   setIsAdmin: (value: boolean) => {},
+  adminView: false,
+  setAdminView: (value: boolean) => {},
 });
 
 export default LoginContext;

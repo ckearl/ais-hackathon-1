@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 export default function App() {
@@ -15,9 +15,9 @@ export default function App() {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }: any) => {
+  const handleBarCodeScanned = ({ data }: { data: string }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`${data}`);
   };
 
   if (hasPermission === null) {
@@ -34,7 +34,11 @@ export default function App() {
         type={"back"}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />}
+      {scanned && (
+        <TouchableOpacity style={styles.scanAgainButton} onPress={() => setScanned(false)}>
+          <Text style={styles.scanAgainText}> Tap to Scan Again</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -46,26 +50,12 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "black",
   },
-  text: {
-    color: "white",
-  },
-  camera: {
-    width: "100%",
-    height: "100%",
-  },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 20,
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "white",
+  scanAgainButton: {
+    backgroundColor: "blue",
     padding: 20,
     borderRadius: 10,
   },
-  buttonText: {
-    color: "black",
+  scanAgainText: {
+    color: "white",
   },
 });
