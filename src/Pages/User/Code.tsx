@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import styles from "../../Styles";
 
 type TSelectPlusOneProps = {
   setPlusOne: (value: boolean) => void;
@@ -35,7 +36,7 @@ export default function Code() {
   let codeValue = netId + "|" + (plusOne ? "1" : "0");
 
   return (
-    <View>
+    <View style={styles.page}>
       {showCode ? (
         <View style={styles.qr}>
           <Text style={styles.p}>Ask an AIS officer scan this QR code to check in.</Text>
@@ -50,19 +51,3 @@ export default function Code() {
     </View>
   );
 }
-
-const styles = {
-  qr: {
-    display: "flex",
-    alignItems: "center",
-  },
-  p: {
-    paddingBottom: 20,
-  },
-  h1: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingBottom: 10,
-    textAlign: "center",
-  },
-} as const;

@@ -2,35 +2,43 @@ import React, { useState, useEffect, useContext } from "react";
 import { Text, View, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import UserContext from "../../Context/UserContext";
-import { TScan } from "../../Types/db";
+import { TEvent, TScan } from "../../Types/db";
 import SendScan from "../../Server/SendScan";
 import EventContext from "../../Context/EventContext";
 import { EventBox } from "../Components/UpcomingEvents";
+import styles from "../../Styles";
 
 type TSelectEventProps = {
-  setEventId: (arg0: number) => void;
+  setEvent: (arg0: TEvent) => void;
 };
 
-function SelectEvent({ setEventId }: TSelectEventProps) {
+function SelectEvent({ setEvent }: TSelectEventProps) {
   const upcomingEvents = useContext(EventContext).upcomingEvents;
 
   return (
-    <View style={styles.selectEventContainer}>
-      <Text style={styles.h1}>Select Event</Text>
-      {upcomingEvents.map((event, i) => {
-        return (
-          <TouchableOpacity key={i} onPress={() => setEventId(event.eventId)}>
-            <EventBox event={event} />
-          </TouchableOpacity>
-        );
-      })}
-    </View>
+    <>
+      <Text style={styles.h1}>Code Scanner</Text>
+      <Text style={styles.subHeading}>Select Event</Text>
+      <View style={styles.outerEventsBox}>
+        {upcomingEvents.map((event, i) => {
+          return (
+            <TouchableOpacity
+              key={i}
+              onPress={() => setEvent(event)}
+              style={styles.eventsContainer}
+            >
+              <EventBox event={event} />
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </>
   );
 }
 
 type TScanStatus = "scanning" | "loading" | "ready" | "failed";
 
-function Scanner({ eventId }: { eventId: number }) {
+function Scanner({ event }: { event: TEvent }) {
   const [scanStatus, setScanStatus] = useState<TScanStatus>("scanning");
   const { user } = useContext(UserContext);
   const [errorMessage, setErrorMessage] = useState("Tap to retry...");
@@ -42,7 +50,7 @@ function Scanner({ eventId }: { eventId: number }) {
       netId: memberNetId,
       plusOne: Number(plusOne),
       scannerId: user.netId,
-      eventId: eventId,
+      eventId: event.eventId,
     };
 
     const res = await SendScan(sendData);
@@ -58,11 +66,15 @@ function Scanner({ eventId }: { eventId: number }) {
 
   return (
     <View style={styles.scanner}>
-      <BarCodeScanner
-        onBarCodeScanned={scanStatus !== "scanning" ? undefined : handleBarCodeScanned}
-        type={"back"}
-        style={StyleSheet.absoluteFillObject}
-      />
+      <Text style={styles.h1}>{event.title}</Text>
+      <Text style={styles.subHeading}>Scan the code to check in</Text>
+      <View style={styles.scanner}>
+        <BarCodeScanner
+          onBarCodeScanned={scanStatus !== "scanning" ? undefined : handleBarCodeScanned}
+          type={"back"}
+          style={StyleSheet.absoluteFillObject}
+        />
+      </View>
       {scanStatus === "loading" && (
         <TouchableOpacity style={styles.scanAgainButton}>
           <Text style={styles.scanAgainText}>Loading...</Text>
@@ -83,7 +95,7 @@ function Scanner({ eventId }: { eventId: number }) {
 }
 
 export default function Code() {
-  const [eventId, setEventId] = useState(0);
+  const [event, setEvent] = useState<TEvent>();
   const [hasPermission, setHasPermission] = useState<null | boolean>(null);
 
   useEffect(() => {
@@ -104,35 +116,7 @@ export default function Code() {
 
   return (
     <View style={styles.page}>
-      {eventId ? <Scanner eventId={eventId} /> : <SelectEvent setEventId={setEventId} />}
+      {event ? <Scanner event={event} /> : <SelectEvent setEvent={setEvent} />}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  page: {},
-  selectEventContainer: {
-    display: "flex",
-    alignItems: "center",
-  },
-  scanAgainButton: {
-    backgroundColor: "blue",
-    padding: 20,
-    borderRadius: 10,
-  },
-  scanAgainText: {
-    color: "white",
-  },
-  h1: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingBottom: 10,
-  },
-  p: {
-    paddingBottom: 20,
-  },
-  scanner: {
-    backgroundColor: "grey",
-    height: 1000,
-  },
-});

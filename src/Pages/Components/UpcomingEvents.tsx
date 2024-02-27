@@ -3,6 +3,7 @@ import EventContext from "../../Context/EventContext";
 import { View, Text } from "react-native";
 import { A } from "@expo/html-elements";
 import { TEvent } from "../../Types/db";
+import styles from "../../Styles";
 
 export function EventBox({ event }: { event: TEvent }) {
   const eventDate = new Date(event.startTime).toDateString();
@@ -30,32 +31,13 @@ export default function UpcomingEvents() {
   const upcomingEvents = useContext(EventContext).upcomingEvents;
 
   return (
-    <View>
-      <Text style={styles.h1}>Upcoming Events</Text>
-
-      {upcomingEvents.map((event, i) => {
-        return <EventBox key={i} event={event} />;
-      })}
+    <View style={styles.outerEventsBox}>
+      <Text style={styles.h2}>Upcoming Events</Text>
+      <View style={styles.eventsContainer}>
+        {upcomingEvents.map((event, i) => {
+          return <EventBox key={i} event={event} />;
+        })}
+      </View>
     </View>
   );
 }
-
-const styles = {
-  h1: {
-    fontSize: 20,
-    fontWeight: "bold",
-    paddingBottom: 10,
-  },
-  p: {
-    paddingBottom: 10,
-  },
-  event: {
-    padding: 20,
-    margin: 10,
-    backgroundColor: "lightgray",
-    minWidth: "70%",
-  },
-  a: {
-    color: "blue",
-  },
-} as const;

@@ -1,4 +1,4 @@
-const LOCAL_API_URL = "http://10.37.114.243:8080";
+const LOCAL_API_URL = "http://192.168.1.245:8080";
 
 const Constants = {
   API_URL: LOCAL_API_URL,

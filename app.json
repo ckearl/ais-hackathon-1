@@ -3,8 +3,10 @@
     "plugings": [
       [
         "expo-camera",
+        "expo-secure-store",
         {
-          "cameraPermissions": "Allow $(PRODUCT_NAME) to access your camera."
+          "cameraPermissions": "Allow $(PRODUCT_NAME) to access your camera.",
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
         }
       ]
     ],
@@ -31,6 +33,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-secure-store"]
   }
 }
