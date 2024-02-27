@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import styles from "../../Styles";
 import EventContext from "../../Context/EventContext";
 
@@ -15,11 +15,13 @@ function Summary() {
 
 export default function Dash() {
   return (
-    <View style={styles.page}>
-      <Text style={styles.h1}>Dashboard</Text>
-      <Text style={styles.subHeading}>View upcoming events</Text>
-      <Text style={styles.subHeading}>Add new events</Text>
-      <Summary />
-    </View>
+    <ScrollView>
+      <View style={styles.page}>
+        <Text style={styles.h1}>Dashboard</Text>
+        <Text style={styles.subHeading}>View upcoming events</Text>
+        <Text style={styles.subHeading}>Add new events</Text>
+        <Summary />
+      </View>
+    </ScrollView>
   );
 }

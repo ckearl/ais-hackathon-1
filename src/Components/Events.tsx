@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import EventContext from "../../Context/EventContext";
+import EventContext from "../Context/EventContext";
 import { View, Text } from "react-native";
 import { A } from "@expo/html-elements";
-import styles from "../../Styles";
-import UserContext from "../../Context/UserContext";
+import styles from "../Styles";
+import UserContext from "../Context/UserContext";
 import { TDbEvent } from "@BackendTypes/db";
 
 export function EventBox({ event }: { event: TDbEvent }) {

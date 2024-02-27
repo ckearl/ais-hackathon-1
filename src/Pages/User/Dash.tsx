@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import styles from "../../Styles";
-import { EventHistory } from "../Components/Events";
+import { EventHistory } from "../../Components/Events";
 import UserContext from "../../Context/UserContext";
 
 type TPunch = {
@@ -43,10 +43,12 @@ function Punches() {
 
 export default function Dash() {
   return (
-    <View style={styles.page}>
-      <Text style={styles.h1}>Dashboard</Text>
-      <Punches />
-      <EventHistory />
-    </View>
+    <ScrollView>
+      <View style={styles.page}>
+        <Text style={styles.h1}>Dashboard</Text>
+        <Punches />
+        <EventHistory />
+      </View>
+    </ScrollView>
   );
 }

@@ -4,7 +4,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import UserContext from "../../Context/UserContext";
 import SendScan from "../../API/InsertScan";
 import EventContext from "../../Context/EventContext";
-import { EventBox, EventsContainer } from "../Components/Events";
+import { EventBox, EventsContainer } from "../../Components/Events";
 import styles from "../../Styles";
 import { TDbEvent, TDbScan } from "@BackendTypes/db";
 
@@ -34,12 +34,16 @@ function Scanner({ event }: { event: TDbEvent }) {
   const handleBarCodeScanned = async ({ data }: { data: string }) => {
     setScanStatus("loading");
     const [memberNetId, plusOne] = data.split("|");
+    console.log(data);
+    console.log(memberNetId, plusOne);
     const sendData: TDbScan = {
       netId: memberNetId,
       plusOne: Number(plusOne),
       scannerId: user.netId,
       eventId: event.eventId,
     };
+
+    console.log(sendData);
 
     const scanData = await SendScan(sendData);
 
@@ -84,7 +88,7 @@ function Scanner({ event }: { event: TDbEvent }) {
             style={styles.scanAgainButton}
             onPress={() => setScanStatus("scanning")}
           >
-            <Text style={styles.scanAgainText}>Failed. {errorMessage}</Text>
+            <Text style={styles.scanAgainText}>Failed. {errorMessage} Click to try again.</Text>
           </TouchableOpacity>
         )}
       </View>
