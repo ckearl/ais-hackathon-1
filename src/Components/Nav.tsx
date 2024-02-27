@@ -1,8 +1,8 @@
 import React from "react";
-import { Text, View, StyleSheet, Touchable, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
-const icon = require("../Lib/Img/Icon/icon.png");
-const codeIcon = require("../Lib/Img/Icon/qr-code.png");
+import styles from "../Styles";
+const scanIcon = require("../Lib/Img/Icon/qr-code.png");
 const homeIcon = require("../Lib/Img/Icon/home.png");
 const settingsIcon = require("../Lib/Img/Icon/settings.png");
 const dashIcon = require("../Lib/Img/Icon/dashboard.png");
@@ -10,25 +10,15 @@ const dashIcon = require("../Lib/Img/Icon/dashboard.png");
 type TnavbarProps = {
   currRoute: string;
   setCurrRoute: React.Dispatch<React.SetStateAction<string>>;
-  admin?: boolean;
+  admin: boolean;
 };
 
-export default function Navbar({ currRoute, setCurrRoute, admin = false }: TnavbarProps) {
-  const navbarStyles = StyleSheet.create({
-    nav: {
-      position: "absolute",
-      bottom: 0,
-      width: "100%",
-      backgroundColor: admin ? "purple" : "blue",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-around",
-    },
-  });
+export default function Navbar({ currRoute, setCurrRoute, admin }: TnavbarProps) {
+  const backgroundColor = admin ? "purple" : "blue";
   return (
-    <View style={navbarStyles.nav}>
+    <View style={{ ...styles.nav, backgroundColor }}>
       <NavItem route={"home"} icon={homeIcon} currRoute={currRoute} setCurrRoute={setCurrRoute} />
-      <NavItem route={"code"} icon={codeIcon} currRoute={currRoute} setCurrRoute={setCurrRoute} />
+      <NavItem route={"scan"} icon={scanIcon} currRoute={currRoute} setCurrRoute={setCurrRoute} />
       <NavItem route={"dash"} icon={dashIcon} currRoute={currRoute} setCurrRoute={setCurrRoute} />
       <NavItem
         route={"settings"}
@@ -47,37 +37,13 @@ type TNavItemProps = {
   setCurrRoute: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export function NavItem({ route, icon, currRoute, setCurrRoute }: TNavItemProps) {
-  let itemStyle: any = navItemStyles.item;
-  if (currRoute === route) {
-    itemStyle = { ...itemStyle, backgroundColor: "black" };
-  }
+function NavItem({ route, icon, currRoute, setCurrRoute }: TNavItemProps) {
+  const backgroundColor = currRoute === route ? "black" : "transparent";
   return (
-    <View style={itemStyle}>
-      <TouchableOpacity style={navItemStyles.imgBg} onPress={() => setCurrRoute(route)}>
-        <Image source={icon} style={navItemStyles.img} />
+    <View style={{ ...styles.navItem, backgroundColor }}>
+      <TouchableOpacity style={styles.navImgBg} onPress={() => setCurrRoute(route)}>
+        <Image source={icon} style={styles.navImg} />
       </TouchableOpacity>
     </View>
   );
 }
-
-const navItemStyles = StyleSheet.create({
-  item: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-    padding: 15,
-    paddingTop: 10,
-    paddingBottom: 25,
-  },
-  img: {
-    width: 40,
-    height: 40,
-  },
-  imgBg: {
-    backgroundColor: "white",
-    padding: 15,
-    borderRadius: 50,
-  },
-});

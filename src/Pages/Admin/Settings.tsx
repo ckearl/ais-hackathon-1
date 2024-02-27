@@ -4,7 +4,7 @@ import UserContext from "../../Context/UserContext";
 import styles from "../../Styles";
 
 export default function Settings() {
-  const { isAdmin, setAdminView } = useContext(UserContext);
+  const { setAdminView } = useContext(UserContext);
 
   return (
     <View style={styles.page}>

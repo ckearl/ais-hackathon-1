@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
-import { TUser } from "../Types/db";
-import AttemptLogIn from "../Server/AttemptLogIn";
-import GetEventHistory from "../Server/GetEventHistory";
+import AttemptLogin from "../API/AttemptLogin";
+import GetEventHistory from "../API/GetUserAttendance";
 import { Save, Load } from "../SecureStore";
+import { TUser } from "../Context/UserContext";
 
 export default function useLogin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminView, setAdminView] = useState(false);
-  const [user, setUser] = useState<TUser>({
-    netId: "",
-    firstName: "",
-    lastName: "",
-    dateCreated: 0,
-    isAdmin: 0,
-    scans: [],
-    events: [],
-  });
+  const [user, setUser] = useState<TUser>({} as TUser);
 
   Save("netId", "johndoe24");
 
@@ -26,25 +18,25 @@ export default function useLogin() {
 
       if (!netId) return;
 
-      const loginRes = await AttemptLogIn(netId);
+      const loginData = await AttemptLogin(netId);
 
-      if (loginRes.data.status !== "success") return;
+      if (loginData.status !== "success") return;
 
       setIsLoggedIn(true);
 
-      if (loginRes.data.user[0].isAdmin === 1) {
+      if (loginData.user.isAdmin === 1) {
         setIsAdmin(true);
         setAdminView(true);
       }
 
-      const eventRes = await GetEventHistory(netId);
+      const eventData = await GetEventHistory(netId);
 
-      if (eventRes.data.status !== "success") return;
+      if (eventData.status !== "success") return;
 
-      const newUserData = {
-        ...loginRes.data.user[0],
-        scans: eventRes.data.scans,
-        events: eventRes.data.events,
+      const newUserData: TUser = {
+        ...loginData.user,
+        scans: eventData.scans,
+        events: eventData.events,
       };
       setUser(newUserData);
     }

@@ -1,12 +1,15 @@
+import { TDbEvent } from "@BackendTypes/db";
+import { TEventSummaries } from "@BackendTypes/res";
 import { createContext } from "react";
-import { TEvent } from "../Types/db";
 
 type TEventContextType = {
-  upcomingEvents: TEvent[];
+  upcomingEvents: TDbEvent[];
+  eventSummaries: TEventSummaries;
 };
 
 const EventContext = createContext<TEventContextType>({
   upcomingEvents: [],
+  eventSummaries: {} as TEventSummaries,
 });
 
 export default EventContext;

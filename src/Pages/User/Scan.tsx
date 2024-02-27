@@ -29,7 +29,7 @@ function SelectPlusOne({ setPlusOne, setShowCode }: TSelectPlusOneProps) {
   );
 }
 
-export default function Code() {
+export default function Scan() {
   let netId = "cgp27";
   const [plusOne, setPlusOne] = useState(false);
   const [showCode, setShowCode] = useState(false);
