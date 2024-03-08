@@ -7,23 +7,20 @@ import UserContext from "../Context/UserContext";
 import { TDbEvent } from "@BackendTypes/db";
 
 export function EventBox({ event }: { event: TDbEvent }) {
-  const eventDate = new Date(event.startTime).toDateString();
-  const eventTime = new Date(event.startTime).toLocaleTimeString();
-
   return (
     <View style={styles.event}>
-      <Text style={styles.h1}>{event.title}</Text>
-      <Text style={styles.p}>{eventDate}</Text>
-      <Text style={styles.p}>{eventTime}</Text>
-      <Text style={styles.p}>{event.location}</Text>
-      <Text style={styles.p}>{event.type}</Text>
+      <Text style={styles.h3}>{event.title}</Text>
+      <Text>Date: {new Date(event.startTime).toLocaleDateString()}</Text>
+      <Text>Time: {new Date(event.startTime).toLocaleTimeString()} </Text>
+      <Text>Location: {event.location} </Text>
+      <Text>Event type: {event.type}</Text>
       {event.waiverUrl && (
-        <>
-          <Text style={styles.h1}>Sign waver here:</Text>
-          <A style={styles.a} href={event.waiverUrl}>
+        <Text>
+          Waiver:{" "}
+          <A href={event.waiverUrl} target="_blank" rel="noreferrer" style={styles.a}>
             {event.waiverUrl}
           </A>
-        </>
+        </Text>
       )}
     </View>
   );
@@ -31,9 +28,9 @@ export function EventBox({ event }: { event: TDbEvent }) {
 
 export function EventsContainer({ children, title }: { children: React.ReactNode; title: string }) {
   return (
-    <View style={styles.outerEventsBox}>
+    <View>
       <Text style={styles.h2}>{title}</Text>
-      <View style={styles.eventsContainer}>{children}</View>
+      <View>{children}</View>
     </View>
   );
 }
@@ -42,11 +39,12 @@ export function EventHistory() {
   const events = useContext(UserContext).user.events;
 
   return (
-    <EventsContainer title="Event History">
+    <View>
+      <Text style={styles.h2}>Event History</Text>
       {events.map((event, i) => (
         <EventBox key={i} event={event} />
       ))}
-    </EventsContainer>
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, ScrollView, Text, View } from "react-native";
+import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import styles from "../../Styles";
 import UserContext from "../../Context/UserContext";
@@ -11,21 +11,28 @@ type TSelectPlusOneProps = {
 
 function SelectPlusOne({ setPlusOne, setShowCode }: TSelectPlusOneProps) {
   return (
-    <View>
-      <Button
-        title="I have a Plus One"
-        onPress={() => {
-          setPlusOne(true);
-          setShowCode(true);
-        }}
-      />
-      <Button
-        title="I am attending alone"
-        onPress={() => {
-          setPlusOne(false);
-          setShowCode(true);
-        }}
-      />
+    <View style={{ marginTop: 50 }}>
+      <Text style={styles.h3}>Do you have a plus one?</Text>
+      <View style={styles.flexRow}>
+        <TouchableOpacity
+          style={styles.plusOneButton}
+          onPress={() => {
+            setPlusOne(true);
+            setShowCode(true);
+          }}
+        >
+          <Text style={styles.plusOneButtonText}>Yes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.plusOneButton}
+          onPress={() => {
+            setPlusOne(false);
+            setShowCode(true);
+          }}
+        >
+          <Text style={styles.plusOneButtonText}>No</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

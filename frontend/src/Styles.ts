@@ -10,6 +10,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
+  plusOneButton: {
+    backgroundColor: "blue",
+    padding: 20,
+    margin: 10,
+    width: "40%",
+    borderRadius: 10,
+    color: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  plusOneButtonText: {
+    color: "white",
+    fontSize: 25,
+  },
   dateContainer: {
     display: "flex",
     flexDirection: "row",
@@ -24,17 +39,20 @@ const styles = StyleSheet.create({
   event: {
     padding: 20,
     margin: 10,
-    backgroundColor: "lightgray",
-    width: "80%",
-  },
-
-  eventsContainer: {
-    display: "flex",
-    alignItems: "center",
+    borderColor: "lightgray",
+    borderWidth: 2,
+    borderRadius: 10,
   },
 
   flex: {
     display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  flexRow: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -46,6 +64,12 @@ const styles = StyleSheet.create({
   },
   h2: {
     fontSize: 20,
+    fontWeight: "bold",
+    paddingBottom: 10,
+    textAlign: "center",
+  },
+  h3: {
+    fontSize: 18,
     fontWeight: "bold",
     paddingBottom: 10,
     textAlign: "center",
@@ -113,6 +137,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 5,
   },
+  picker: {
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    marginHorizontal: 10,
+  },
   punch: {
     padding: 10,
     margin: 10,
@@ -168,8 +198,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   summaryContainer: {
-    display: "flex",
-    alignItems: "center",
     borderWidth: 2,
     borderStyle: "solid",
     borderColor: "lightgray",
@@ -179,6 +207,9 @@ const styles = StyleSheet.create({
   },
   textBlack: {
     color: "black",
+  },
+  textWhite: {
+    color: "white",
   },
   w100: {
     width: "100%",

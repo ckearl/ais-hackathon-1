@@ -6,13 +6,11 @@ import { A } from "@expo/html-elements";
 import Constants from "../../Constants";
 import UserContext from "../../Context/UserContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
 import { CreateEvent } from "../../API/CreateEvent";
 
 function EventSummaries() {
   const events = useContext(EventContext).eventSummaries.scansPerEvent;
-  console.log(events);
   return (
     <View style={styles.summaryContainer}>
       <Text style={styles.h1}>Last 5 Events</Text>
@@ -35,25 +33,18 @@ function RaffleEligibleStudents() {
   const numStudents = raffleEligibleStudents.length;
   return (
     <View style={styles.summaryContainer}>
-      <Text style={styles.h1}>Raffle Eligible Students</Text>
-      {numStudents > 0 ? (
-        <>
-          <Text style={styles.p}>
-            {numStudents} student{numStudents === 1 ? " is" : "s are"} eligible for the raffle
-          </Text>
-          <Text style={styles.pCenter}>
-            Go to{" "}
-            <A style={styles.a} href={Constants.API_STUDENT_RAFFLE_URL}>
-              {Constants.API_STUDENT_RAFFLE_URL}
-            </A>{" "}
-            to download the list of eligible students.
-          </Text>
-        </>
-      ) : (
-        <>
-          <Text style={styles.pCenter}>No students are eligible for the raffle yet.</Text>
-        </>
-      )}
+      <Text style={styles.h2}>Raffle Eligible Students</Text>
+
+      <Text style={styles.pCenter}>
+        {numStudents} student{numStudents === 1 ? " is" : "s are"} eligible for the raffle
+      </Text>
+      <Text style={styles.pCenter}>
+        Go to{" "}
+        <A style={styles.a} href={Constants.API_STUDENT_RAFFLE_URL}>
+          {Constants.API_STUDENT_RAFFLE_URL}
+        </A>{" "}
+        to download the list of eligible students.
+      </Text>
     </View>
   );
 }
@@ -125,6 +116,8 @@ function CreateEventComponent({
       alert("Event created successfully");
       setCurrentComponent("main");
       setRefreshEventInfo(!refreshEventInfo);
+    } else if (data.errorCode === "insufficientData") {
+      alert("Event Creation Failed. Please fill out all required fields");
     }
   };
 
@@ -185,13 +178,14 @@ function CreateEventComponent({
         />
       </View>
 
-      <Text style={styles.pCenter}>Event Type</Text>
+      <Text style={styles.h3}>Event Type</Text>
       <Picker
+        style={styles.picker}
         selectedValue={eventType}
         onValueChange={(itemValue, itemIndex) => setEventType(itemValue)}
       >
-        {Object.keys(Constants.eventTypeThresholds).map((type) => (
-          <Picker.Item label={type} value={type} />
+        {Object.keys(Constants.eventTypeThresholds).map((type, i) => (
+          <Picker.Item key={i} label={type} value={type} />
         ))}
       </Picker>
       <TextInput
@@ -202,7 +196,7 @@ function CreateEventComponent({
       <TextInput
         style={styles.input}
         onChange={(e) => setWaiverUrl(e.nativeEvent.text)}
-        placeholder="Waiver Url (optonal)"
+        placeholder="Waiver Url (optional)"
       />
       <TextInput
         style={styles.input}
@@ -228,11 +222,11 @@ export default function Dash() {
           setCurrentComponent={setCurrentComponent}
         />
         {currentComponent === "main" ? (
-          <>
+          <View>
             <TotalAttendance />
             <RaffleEligibleStudents />
             <EventSummaries />
-          </>
+          </View>
         ) : (
           <CreateEventComponent setCurrentComponent={setCurrentComponent} />
         )}

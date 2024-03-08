@@ -2,6 +2,7 @@ import { TDbEvent, TDbScan, TDbUser } from "./db";
 
 export type TErrorRes = {
   status: "failed";
+  errorCode: string;
   message: string;
   log: string;
 };
