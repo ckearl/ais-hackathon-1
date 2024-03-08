@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { TDbEvent } from "@BackendTypes/db";
 import { TEventSummaries } from "@BackendTypes/res";
 import GetEventSummaries from "../API/GetEventSummaries";
-import { Save } from "../SecureStore";
 
 export default function LoginRouter() {
   const [upcomingEvents, setUpcomingEvents] = useState<TDbEvent[]>([]);

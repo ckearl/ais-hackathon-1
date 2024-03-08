@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   a: {
     color: "blue",
+    textDecorationLine: "underline",
   },
   alert: {
     color: "red",
@@ -93,15 +94,19 @@ const styles = StyleSheet.create({
   },
   pCenter: {
     textAlign: "center",
+    paddingHorizontal: 10,
+    marginBottom: 5,
   },
   punch: {
     padding: 10,
     margin: 10,
     width: "40%",
+    height: 100,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
   },
+  punchComplete: { backgroundColor: "lightgreen" },
   punchContainer: {
     display: "flex",
     flexDirection: "row",
