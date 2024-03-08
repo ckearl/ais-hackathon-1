@@ -18,15 +18,15 @@ type TLogInProps = {
   setAttemptedLogin: (arg: boolean) => void;
 };
 
-export default function LogIn({ attemptedLogin, setAttemptedLogin }: TLogInProps) {
-  const failedLoginAttempt = useContext(UserContext).failedLoginAttempt;
+export default function LogIn() {
+  const { failedLoginAttempt, refreshLogin, setRefreshLogin } = useContext(UserContext);
   const [netId, setNetId] = useState("");
 
   async function submitHandler(e: any) {
     const netId = e.nativeEvent.text;
     await Save("netId", netId);
     setNetId(netId);
-    setAttemptedLogin(!attemptedLogin);
+    setRefreshLogin(!refreshLogin);
   }
 
   return (

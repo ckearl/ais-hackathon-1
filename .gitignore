@@ -4,8 +4,8 @@
 */node_modules/
 
 # Expo
-.expo/
-*/dist/
+frontend/.expo/
+dist/
 web-build/
 
 # Native

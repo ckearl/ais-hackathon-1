@@ -4,7 +4,7 @@ import GetEventHistory from "../API/GetUserAttendance";
 import { Load } from "../SecureStore";
 import { TUser } from "../Context/UserContext";
 
-export default function useLogin(attemptedLogin: boolean) {
+export default function useLogin(refreshLogin: boolean) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminView, setAdminView] = useState(false);
@@ -43,7 +43,7 @@ export default function useLogin(attemptedLogin: boolean) {
       setUser(newUserData);
     }
     GetUserData();
-  }, [attemptedLogin]);
+  }, [refreshLogin]);
 
   return {
     user,

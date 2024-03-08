@@ -48,3 +48,7 @@ export type TAttemptLoginRes = {
   status: "success";
   user: TDbUser;
 };
+
+export type TCreateEvent = {
+  status: "success";
+};

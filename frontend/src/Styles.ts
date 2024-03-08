@@ -10,16 +10,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
+  dateContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 10,
+  },
+  errorText: {
+    color: "red",
+    marginBottom: 10,
+  },
   event: {
     padding: 20,
     margin: 10,
     backgroundColor: "lightgray",
     width: "80%",
   },
+
   eventsContainer: {
     display: "flex",
     alignItems: "center",
   },
+
   flex: {
     display: "flex",
     alignItems: "center",
@@ -50,6 +63,9 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
+  },
+  mxAuto: {
+    marginHorizontal: "auto",
   },
   nav: {
     position: "absolute",
@@ -150,6 +166,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 10,
     textAlign: "center",
+  },
+  summaryContainer: {
+    display: "flex",
+    alignItems: "center",
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: "lightgray",
+    borderRadius: 10,
+    margin: 10,
+    padding: 10,
   },
   textBlack: {
     color: "black",

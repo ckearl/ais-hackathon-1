@@ -16,6 +16,8 @@ export type TUserContextType = {
   setAdminView: (value: boolean) => void;
   failedLoginAttempt: boolean;
   setFailedLoginAttempt: (value: boolean) => void;
+  refreshLogin: boolean;
+  setRefreshLogin: (value: boolean) => void;
 };
 
 const UserContext = createContext<TUserContextType>({
@@ -28,6 +30,8 @@ const UserContext = createContext<TUserContextType>({
   setAdminView: (value: boolean) => {},
   failedLoginAttempt: false,
   setFailedLoginAttempt: (value: boolean) => {},
+  refreshLogin: false,
+  setRefreshLogin: (value: boolean) => {},
 });
 
 export default UserContext;

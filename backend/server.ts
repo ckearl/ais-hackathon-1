@@ -10,8 +10,9 @@ import {
   TGetUserAttendanceRes,
   TEventSummaries,
   TScansPerEvent,
+  TCreateEvent,
 } from "./BackendTypes/res";
-import { TValidEventType, eventTypeThresholds } from "@BackendTypes/db";
+import { TValidEventType, eventTypeThresholds } from "./BackendTypes/db";
 const converter = require("json-2-csv");
 import fs from "fs";
 
@@ -188,6 +189,34 @@ app.get("/StudentRaffle", (req, res) => {
       const csv = converter.json2csv(raffleUsers);
       fs.writeFileSync("raffleEligibleStudents.csv", csv);
       res.download("raffleEligibleStudents.csv");
+    });
+});
+
+// ############################## Event CRUD API ##############################
+
+app.post("/CreateEvent", (req, res) => {
+  const { title, type, notes, startTime, endTime, location, createdBy, waiverUrl } = req.body;
+  if (!title || !type || !startTime || !endTime || !location || !createdBy) {
+    SendError(res, "insufficientData");
+    return;
+  }
+  console.log("Create event");
+  db("Event")
+    .insert({
+      title: title,
+      type: type,
+      notes: notes,
+      startTime: startTime,
+      endTime: endTime,
+      location: location,
+      createdBy: createdBy,
+      createdDate: new Date(),
+      editedBy: createdBy,
+      editDate: new Date(),
+      waiverUrl: waiverUrl,
+    })
+    .then(() => {
+      res.send({ status: "success" } satisfies TCreateEvent);
     });
 });
 

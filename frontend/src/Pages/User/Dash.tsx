@@ -4,15 +4,9 @@ import styles from "../../Styles";
 import { EventHistory } from "../../Components/Events";
 import UserContext from "../../Context/UserContext";
 import { TEventTypeThresholds } from "@BackendTypes/db";
+import constants from "../../Constants";
 
-//if you update these values, don't forget to update the backend as well.
-const eventTypeThresholds: TEventTypeThresholds = {
-  socialize: 2,
-  learn: 2,
-  serve: 4,
-  discover: 4,
-  connect: 3,
-};
+const eventTypeThresholds: TEventTypeThresholds = constants.eventTypeThresholds;
 
 function Punches() {
   const events = useContext(UserContext).user.events;

@@ -1,17 +1,21 @@
-import React, { useContext } from "react";
-import { Text, View, ScrollView } from "react-native";
+import React, { useContext, useState } from "react";
+import { Text, View, ScrollView, Button, TextInput } from "react-native";
 import styles from "../../Styles";
 import EventContext from "../../Context/EventContext";
 import { A } from "@expo/html-elements";
 import Constants from "../../Constants";
+import UserContext from "../../Context/UserContext";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "react-native-date-picker";
+import { Picker } from "@react-native-picker/picker";
+import { CreateEvent } from "../../API/CreateEvent";
 
 function EventSummaries() {
   const events = useContext(EventContext).eventSummaries.scansPerEvent;
   console.log(events);
   return (
-    <View style={styles.eventsContainer}>
-      <Text style={styles.h1}>Event History</Text>
-      <Text style={styles.subHeading}>Last 5 Events</Text>
+    <View style={styles.summaryContainer}>
+      <Text style={styles.h1}>Last 5 Events</Text>
       {Object.keys(events).map((eventId, i) => {
         const event = events[eventId];
         return (
@@ -26,34 +30,16 @@ function EventSummaries() {
   );
 }
 
-function TotalAttendance() {
-  const totalAttendance = useContext(EventContext).eventSummaries.totalAttendance;
-  return (
-    <View style={styles.eventsContainer}>
-      <Text style={styles.h1}>Total Semester Attendance</Text>
-      <Text style={styles.pCenter}>{totalAttendance}</Text>
-    </View>
-  );
-}
-
 function RaffleEligibleStudents() {
   const raffleEligibleStudents = useContext(EventContext).eventSummaries.raffleEligibleStudents;
+  const numStudents = raffleEligibleStudents.length;
   return (
-    <View style={styles.eventsContainer}>
+    <View style={styles.summaryContainer}>
       <Text style={styles.h1}>Raffle Eligible Students</Text>
-      {raffleEligibleStudents.length > 0 ? (
-        raffleEligibleStudents.map((student, i) => {
-          return (
-            <Text key={i} style={styles.pCenter}>
-              {student}
-            </Text>
-          );
-        })
-      ) : (
+      {numStudents > 0 ? (
         <>
-          <Text style={styles.pCenter}>
-            No students are eligible for the raffle yet. Their names will appear here when they are
-            eligible.
+          <Text style={styles.p}>
+            {numStudents} student{numStudents === 1 ? " is" : "s are"} eligible for the raffle
           </Text>
           <Text style={styles.pCenter}>
             Go to{" "}
@@ -63,29 +49,193 @@ function RaffleEligibleStudents() {
             to download the list of eligible students.
           </Text>
         </>
+      ) : (
+        <>
+          <Text style={styles.pCenter}>No students are eligible for the raffle yet.</Text>
+        </>
       )}
     </View>
   );
 }
 
-function Summary() {
+function TotalAttendance() {
+  const totalAttendance = useContext(EventContext).eventSummaries.totalAttendance;
   return (
-    <View>
-      <TotalAttendance />
-      <RaffleEligibleStudents />
-      <EventSummaries />
+    <View style={styles.summaryContainer}>
+      <Text style={styles.h1}>Total Semester Attendance</Text>
+      <Text style={styles.pCenter}>{totalAttendance}</Text>
     </View>
   );
 }
 
+type TCreatEventButtonProps = {
+  currentComponent: TCurrentComponent;
+  setCurrentComponent: React.Dispatch<React.SetStateAction<TCurrentComponent>>;
+};
+
+function CreateEventButton({ currentComponent, setCurrentComponent }: TCreatEventButtonProps) {
+  const title = currentComponent === "main" ? "Create Event" : "Back to Dashboard";
+  const onPress =
+    currentComponent === "main"
+      ? () => setCurrentComponent("createEvent")
+      : () => setCurrentComponent("main");
+  return <Button title={title} onPress={onPress} />;
+}
+
+function CreateEventComponent({
+  setCurrentComponent,
+}: {
+  setCurrentComponent: React.Dispatch<React.SetStateAction<TCurrentComponent>>;
+}) {
+  const { setRefreshEventInfo, refreshEventInfo } = useContext(EventContext);
+  const [eventName, setEventName] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [waiverUrl, setWaiverUrl] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+
+  const [eventDate, setEventDate] = useState(new Date());
+  const [eventStartTime, setEventStartTime] = useState(new Date());
+  const [eventEndTime, setEventEndTime] = useState(new Date());
+
+  const user = useContext(UserContext).user;
+
+  const submitHandler = async () => {
+    const startTime = new Date(eventDate.getTime());
+    startTime.setHours(eventStartTime.getHours());
+    startTime.setMinutes(eventStartTime.getMinutes());
+
+    const endTime = new Date(eventDate.getTime());
+    endTime.setHours(eventEndTime.getHours());
+    endTime.setMinutes(eventEndTime.getMinutes());
+
+    const params = {
+      title: eventName,
+      startTime: startTime,
+      endTime: endTime,
+      type: eventType,
+      notes: eventDescription,
+      waiverUrl: waiverUrl,
+      location: eventLocation,
+      createdBy: user.netId,
+    };
+
+    const data = await CreateEvent(params);
+    if (data.status === "success") {
+      alert("Event created successfully");
+      setCurrentComponent("main");
+      setRefreshEventInfo(!refreshEventInfo);
+    }
+  };
+
+  const onDateChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || eventDate;
+    setEventDate(currentDate);
+  };
+
+  const onStartTimeChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || eventStartTime;
+    setEventStartTime(currentDate);
+  };
+
+  const onEndTimeChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate || eventEndTime;
+    setEventEndTime(currentDate);
+  };
+
+  return (
+    <View style={{ marginBottom: 500 }}>
+      <Text style={styles.h1}>Create an Event</Text>
+      <TextInput
+        style={styles.input}
+        onChange={(e) => setEventName(e.nativeEvent.text)}
+        placeholder="Event Name"
+      />
+      <View style={styles.dateContainer}>
+        <Text>Event Date</Text>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={eventDate}
+          mode={"date"}
+          is24Hour={true}
+          onChange={onDateChange}
+        />
+      </View>
+      <View style={styles.dateContainer}>
+        <Text>Start Time</Text>
+        <DateTimePicker
+          minuteInterval={5}
+          testID="dateTimePicker"
+          value={eventStartTime}
+          mode={"time"}
+          is24Hour={true}
+          onChange={onStartTimeChange}
+        />
+      </View>
+
+      <View style={styles.dateContainer}>
+        <Text>End Time</Text>
+        <DateTimePicker
+          minuteInterval={15}
+          testID="dateTimePicker"
+          value={eventEndTime}
+          mode={"time"}
+          is24Hour={true}
+          onChange={onEndTimeChange}
+        />
+      </View>
+
+      <Text style={styles.pCenter}>Event Type</Text>
+      <Picker
+        selectedValue={eventType}
+        onValueChange={(itemValue, itemIndex) => setEventType(itemValue)}
+      >
+        {Object.keys(Constants.eventTypeThresholds).map((type) => (
+          <Picker.Item label={type} value={type} />
+        ))}
+      </Picker>
+      <TextInput
+        style={styles.input}
+        onChange={(e) => setEventDescription(e.nativeEvent.text)}
+        placeholder="Event Description (optional)"
+      />
+      <TextInput
+        style={styles.input}
+        onChange={(e) => setWaiverUrl(e.nativeEvent.text)}
+        placeholder="Waiver Url (optonal)"
+      />
+      <TextInput
+        style={styles.input}
+        onChange={(e) => setEventLocation(e.nativeEvent.text)}
+        placeholder="Event Location"
+      />
+      <Button title="Create Event" onPress={submitHandler} />
+    </View>
+  );
+}
+
+type TCurrentComponent = "main" | "createEvent";
+
 export default function Dash() {
+  const [currentComponent, setCurrentComponent] = useState<TCurrentComponent>("main");
+
   return (
     <ScrollView>
       <View style={styles.page}>
-        <Text style={styles.h1}>Dashboard</Text>
-        <Text style={styles.subHeading}>View upcoming events</Text>
-        <Text style={styles.subHeading}>Add new events</Text>
-        <Summary />
+        <Text style={styles.h1}>Admin Dashboard</Text>
+        <CreateEventButton
+          currentComponent={currentComponent}
+          setCurrentComponent={setCurrentComponent}
+        />
+        {currentComponent === "main" ? (
+          <>
+            <TotalAttendance />
+            <RaffleEligibleStudents />
+            <EventSummaries />
+          </>
+        ) : (
+          <CreateEventComponent setCurrentComponent={setCurrentComponent} />
+        )}
       </View>
     </ScrollView>
   );
