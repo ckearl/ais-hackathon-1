@@ -12,6 +12,10 @@ export const eventTypeThresholds: TEventTypeThresholds = {
   connect: 3,
 };
 
+export function True(): boolean {
+  return true;
+}
+
 export type TDbUser = {
   netId: string;
   firstName: string;

@@ -1,4 +1,3 @@
-import { TDbUser } from "@BackendTypes/db";
 import knex from "knex";
 
 const db = knex({

@@ -3,11 +3,9 @@ import { ScrollView, Text, View } from "react-native";
 import styles from "../../Styles";
 import { EventHistory } from "../../Components/Events";
 import UserContext from "../../Context/UserContext";
+import { TEventTypeThresholds } from "@BackendTypes/db";
 
-type TEventTypeThresholds = {
-  [key: string]: number;
-};
-
+//if you update these values, don't forget to update the backend as well.
 const eventTypeThresholds: TEventTypeThresholds = {
   socialize: 2,
   learn: 2,

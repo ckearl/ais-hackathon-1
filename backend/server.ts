@@ -11,7 +11,7 @@ import {
   TEventSummaries,
   TScansPerEvent,
 } from "./BackendTypes/res";
-import { TValidEventType, eventTypeThresholds } from "./BackendTypes/db";
+import { TValidEventType, eventTypeThresholds } from "@BackendTypes/db";
 const converter = require("json-2-csv");
 import fs from "fs";
 
