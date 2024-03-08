@@ -8,11 +8,18 @@ import { useEffect, useState } from "react";
 import { TDbEvent } from "@BackendTypes/db";
 import { TEventSummaries } from "@BackendTypes/res";
 import GetEventSummaries from "../API/GetEventSummaries";
+import { Save } from "../SecureStore";
 
 export default function LoginRouter() {
-  const userInfo = useLogin();
   const [upcomingEvents, setUpcomingEvents] = useState<TDbEvent[]>([]);
-  const [eventSummaries, setEventSummary] = useState<TEventSummaries>({} as TEventSummaries);
+  const [eventSummaries, setEventSummaries] = useState<TEventSummaries>({} as TEventSummaries);
+  const [attemptedLogin, setAttemptedLogin] = useState(false);
+  const userInfo = useLogin(attemptedLogin);
+
+  // uncomment to test login functionality for first-time users
+  // useEffect(() => {
+  //   Save("netId", "");
+  // }, []);
 
   useEffect(() => {
     async function GetEventData() {
@@ -22,7 +29,7 @@ export default function LoginRouter() {
       }
       const eventSummariesData = await GetEventSummaries();
       if (eventSummariesData.status === "success") {
-        setEventSummary(eventSummariesData.eventSummaries);
+        setEventSummaries(eventSummariesData.eventSummaries);
       }
     }
     GetEventData();
@@ -37,6 +44,10 @@ export default function LoginRouter() {
       </EventContext.Provider>
     );
   } else {
-    return <LogIn />;
+    return (
+      <UserContext.Provider value={userInfo}>
+        <LogIn attemptedLogin={attemptedLogin} setAttemptedLogin={setAttemptedLogin} />
+      </UserContext.Provider>
+    );
   }
 }

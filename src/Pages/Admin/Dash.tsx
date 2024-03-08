@@ -5,10 +5,11 @@ import EventContext from "../../Context/EventContext";
 
 function Summary() {
   const eventSummaries = useContext(EventContext).eventSummaries;
+  console.log(eventSummaries);
 
   return (
     <View style={styles.page}>
-      <Text style={styles.h1}>{JSON.stringify(eventSummaries)}</Text>
+      <Text style={styles.p}>{JSON.stringify(eventSummaries)}</Text>
     </View>
   );
 }

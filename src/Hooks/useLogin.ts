@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import AttemptLogin from "../API/AttemptLogin";
 import GetEventHistory from "../API/GetUserAttendance";
-import { Save, Load } from "../SecureStore";
+import { Load } from "../SecureStore";
 import { TUser } from "../Context/UserContext";
 
-export default function useLogin() {
+export default function useLogin(attemptedLogin: boolean) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminView, setAdminView] = useState(false);
   const [user, setUser] = useState<TUser>({} as TUser);
-
-  Save("netId", "johndoe24");
+  const [failedLoginAttempt, setFailedLoginAttempt] = useState(false);
 
   useEffect(() => {
     async function GetUserData() {
@@ -20,7 +19,10 @@ export default function useLogin() {
 
       const loginData = await AttemptLogin(netId);
 
-      if (loginData.status !== "success") return;
+      if (loginData.status !== "success") {
+        setFailedLoginAttempt(true);
+        return;
+      }
 
       setIsLoggedIn(true);
 
@@ -41,7 +43,7 @@ export default function useLogin() {
       setUser(newUserData);
     }
     GetUserData();
-  }, []);
+  }, [attemptedLogin]);
 
   return {
     user,
@@ -51,5 +53,7 @@ export default function useLogin() {
     setIsAdmin,
     adminView,
     setAdminView,
+    failedLoginAttempt,
+    setFailedLoginAttempt,
   };
 }

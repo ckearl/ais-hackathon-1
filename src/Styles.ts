@@ -4,6 +4,11 @@ const styles = StyleSheet.create({
   a: {
     color: "blue",
   },
+  alert: {
+    color: "red",
+    fontSize: 20,
+    textAlign: "center",
+  },
   event: {
     padding: 20,
     margin: 10,
@@ -38,6 +43,13 @@ const styles = StyleSheet.create({
   h90: {
     height: "90%",
   },
+  input: {
+    padding: 10,
+    margin: 10,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
   nav: {
     position: "absolute",
     bottom: 0,
@@ -66,7 +78,6 @@ const styles = StyleSheet.create({
 
     paddingBottom: 15,
   },
-
   outerEventsBox: {
     backgroundColor: "lightblue",
     padding: 20,
@@ -134,6 +145,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingBottom: 10,
     textAlign: "center",
+  },
+  textBlack: {
+    color: "black",
   },
   w100: {
     width: "100%",
