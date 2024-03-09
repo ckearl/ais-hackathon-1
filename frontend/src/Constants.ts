@@ -1,4 +1,4 @@
-const LOCAL_API_URL = "http://192.168.86.250:8080";
+const LOCAL_API_URL = "http://hackathon.corbanpro.net:8080";
 
 type TConstants = {
   API_URL: string;
