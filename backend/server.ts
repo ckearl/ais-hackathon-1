@@ -12,7 +12,7 @@ import {
   TScansPerEvent,
   TCreateEvent,
 } from "./BackendTypes/res";
-import { TValidEventType, eventTypeThresholds } from "./BackendTypes/db";
+import { eventTypeThresholds } from "./BackendTypes/db";
 const converter = require("json-2-csv");
 import fs from "fs";
 
@@ -20,17 +20,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ############################## Test API ##############################
+// ############################## Test Endpoints ##############################
 app.get("/", (req, res) => {
-  db("User")
-    .select()
-    .then((users) => {
-      res.send(users);
-    });
-  console.log("User selected");
+  res.send({ message: "Hello World" });
 });
 
-// ############################## Scan API ##############################
+// ############################## Scan Endpoints ##############################
 
 app.get("/GetScans", (req, res) => {
   console.log("Get Scans");
@@ -68,7 +63,7 @@ app.post("/InsertScan", (req, res) => {
     });
 });
 
-// ############################## Event Info API ##############################
+// ############################## Event Info Endpoints ##############################
 
 app.get("/GetUserAttendance/:netId", (req, res) => {
   console.log("User Attendance");
@@ -87,6 +82,7 @@ app.get("/GetUserAttendance/:netId", (req, res) => {
           scans.map((scan) => scan.eventId)
         )
         .select()
+        .orderBy("startTime", "desc")
         .then((events) => {
           res.send({
             status: "success",
@@ -99,24 +95,24 @@ app.get("/GetUserAttendance/:netId", (req, res) => {
 
 app.get("/GetUpcomingEvents", (req, res) => {
   console.log("Upcoming Events");
-  const twoHoursAgo = new Date();
-  twoHoursAgo.setHours(twoHoursAgo.getHours() + 1);
+  const fourHoursAgo = new Date();
+  fourHoursAgo.setHours(fourHoursAgo.getHours() - 4);
 
   db("Event")
-    .where("startTime", ">", twoHoursAgo)
+    .where("startTime", ">", fourHoursAgo)
     .select()
+    .orderBy("startTime", "asc")
     .then((events) => {
       res.send({ status: "success", events: events } satisfies TGetUpcomingEventsRes);
     });
 });
 
-const raffleEligibleHavingClause = Object.keys(eventTypeThresholds)
-  .map((eventType) => {
-    return `sum(case when type = '${eventType}' then 1 else 0 end) >= ${
-      eventTypeThresholds[eventType as TValidEventType]
-    }`;
-  })
-  .join(" AND ");
+const raffleEligibleHavingClause =
+  Object.keys(eventTypeThresholds)
+    .map((eventType) => {
+      return `sum(case when type = '${eventType}' then 1 else 0 end) >= 1`;
+    })
+    .join(" AND ") + " AND count(*) >= 10";
 
 app.get("/GetEventSummaries", async (req, res) => {
   console.log("Event Summaries");
@@ -192,7 +188,7 @@ app.get("/StudentRaffle", (req, res) => {
     });
 });
 
-// ############################## Event CRUD API ##############################
+// ############################## Event CRUD Endpoints ##############################
 
 app.post("/CreateEvent", (req, res) => {
   const { title, type, notes, startTime, endTime, location, createdBy, waiverUrl } = req.body;
@@ -220,7 +216,7 @@ app.post("/CreateEvent", (req, res) => {
     });
 });
 
-// ############################## Auth API ##############################
+// ############################## Auth Endpoints ##############################
 
 app.post("/AttemptLogin", (req, res) => {
   const { netId } = req.body;

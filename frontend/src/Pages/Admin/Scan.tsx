@@ -13,6 +13,7 @@ function SelectEvent({ setEvent }: { setEvent: (arg0: TDbEvent) => void }) {
 
   return (
     <ScrollView>
+      <Text style={styles.h1}>QR Code Scanner</Text>
       <EventsContainer title="Select Event">
         {upcomingEvents.map((event, i) => (
           <TouchableOpacity key={i} onPress={() => setEvent(event)} style={styles.w100}>
@@ -26,7 +27,12 @@ function SelectEvent({ setEvent }: { setEvent: (arg0: TDbEvent) => void }) {
 
 type TScanStatus = "scanning" | "loading" | "ready" | "failed";
 
-function Scanner({ event }: { event: TDbEvent }) {
+type TScannerProps = {
+  event: TDbEvent;
+  setEvent: React.Dispatch<React.SetStateAction<TDbEvent | undefined>>;
+};
+
+function Scanner({ event, setEvent }: TScannerProps) {
   const [scanStatus, setScanStatus] = useState<TScanStatus>("scanning");
   const [errorMessage, setErrorMessage] = useState("Tap to retry...");
   const user = useContext(UserContext).user;
@@ -58,6 +64,9 @@ function Scanner({ event }: { event: TDbEvent }) {
 
   return (
     <View>
+      <Text style={styles.pAbsolute}>
+        <Button title="Back" onPress={() => setEvent(undefined)} />
+      </Text>
       <View style={styles.scanHeader}>
         <Text style={styles.h1}>{event.title}</Text>
         <Text style={styles.subHeading}>Scan the code to check in</Text>
@@ -116,7 +125,7 @@ export default function Scan() {
 
   return (
     <View style={styles.page}>
-      {event ? <Scanner event={event} /> : <SelectEvent setEvent={setEvent} />}
+      {event ? <Scanner event={event} setEvent={setEvent} /> : <SelectEvent setEvent={setEvent} />}
     </View>
   );
 }

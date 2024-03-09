@@ -13,7 +13,7 @@ function EventSummaries() {
   const events = useContext(EventContext).eventSummaries.scansPerEvent;
   return (
     <View style={styles.summaryContainer}>
-      <Text style={styles.h1}>Last 5 Events</Text>
+      <Text style={styles.h1}>Recent Event Summary</Text>
       {Object.keys(events).map((eventId, i) => {
         const event = events[eventId];
         return (

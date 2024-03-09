@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Button, Text, TouchableOpacity, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import styles from "../../Styles";
 import UserContext from "../../Context/UserContext";
@@ -11,7 +11,7 @@ type TSelectPlusOneProps = {
 
 function SelectPlusOne({ setPlusOne, setShowCode }: TSelectPlusOneProps) {
   return (
-    <View style={{ marginTop: 50 }}>
+    <View>
       <Text style={styles.h3}>Do you have a plus one?</Text>
       <View style={styles.flexRow}>
         <TouchableOpacity
@@ -43,21 +43,22 @@ export default function Scan() {
   const [showCode, setShowCode] = useState(false);
   let codeValue = netId + "|" + (plusOne ? "1" : "0");
 
-  return (
-    <ScrollView>
-      <View style={styles.page}>
-        {showCode ? (
-          <View style={styles.qr}>
-            <Text style={styles.p}>Ask an AIS officer scan this QR code to check in.</Text>
-            <QRCode value={codeValue} size={200} />
-          </View>
-        ) : (
-          <>
-            <Text style={styles.h1}>User Code</Text>
-            <SelectPlusOne setPlusOne={setPlusOne} setShowCode={setShowCode} />
-          </>
-        )}
+  return showCode ? (
+    <View>
+      <Text style={{ position: "absolute", zIndex: 1, marginTop: 40 }}>
+        <Button title="Back" onPress={() => setShowCode(false)} />
+      </Text>
+      <View style={styles.qrContainer}>
+        <View style={styles.qr}>
+          <QRCode value={codeValue} size={200} />
+        </View>
+        <Text style={styles.p}>An AIS officer will scan this code to check you in.</Text>
       </View>
-    </ScrollView>
+    </View>
+  ) : (
+    <View style={styles.page}>
+      <Text style={styles.h1}>User Code</Text>
+      <SelectPlusOne setPlusOne={setPlusOne} setShowCode={setShowCode} />
+    </View>
   );
 }

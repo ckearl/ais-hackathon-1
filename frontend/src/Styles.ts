@@ -132,6 +132,10 @@ const styles = StyleSheet.create({
   p: {
     paddingBottom: 10,
   },
+  pAbsolute: {
+    position: "absolute",
+    zIndex: 1,
+  },
   pCenter: {
     textAlign: "center",
     paddingHorizontal: 10,
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
     width: "40%",
-    height: 100,
+    height: 80,
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 10,
@@ -160,10 +164,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    marginTop: 20,
   },
   qr: {
+    margin: 30,
+  },
+  qrContainer: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
   },
   rootContainer: {
     height: "100%",
