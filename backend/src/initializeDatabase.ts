@@ -103,7 +103,6 @@ async function InitializeDatabase() {
       editDate: new Date(),
       location: "BYU",
     },
-
     {
       title: "Event 3",
       startTime: new Date(),
@@ -187,13 +186,6 @@ async function InitializeDatabase() {
       plusOne: true,
     },
     {
-      netId: "johndoe24",
-      eventId: 2,
-      scannerId: "janesmith101",
-      timestamp: new Date(),
-      plusOne: false,
-    },
-    {
       netId: "janesmith101",
       eventId: 3,
       scannerId: "johndoe24",
@@ -201,15 +193,8 @@ async function InitializeDatabase() {
       plusOne: true,
     },
     {
-      netId: "johndoe24",
-      eventId: 4,
-      scannerId: "johndoe24",
-      timestamp: new Date(),
-      plusOne: false,
-    },
-    {
-      netId: "johndoe24",
-      eventId: 5,
+      netId: "janesmith101",
+      eventId: 6,
       scannerId: "janesmith101",
       timestamp: new Date(),
       plusOne: true,
@@ -224,11 +209,10 @@ async function InitializeDatabase() {
     {
       netId: "johndoe24",
       eventId: 2,
-      scannerId: "johndoe24",
+      scannerId: "janesmith101",
       timestamp: new Date(),
       plusOne: false,
     },
-
     {
       netId: "johndoe24",
       eventId: 3,
@@ -239,19 +223,19 @@ async function InitializeDatabase() {
     {
       netId: "johndoe24",
       eventId: 4,
-      scannerId: "janesmith101",
+      scannerId: "johndoe24",
       timestamp: new Date(),
       plusOne: false,
     },
     {
       netId: "johndoe24",
       eventId: 5,
-      scannerId: "johndoe24",
+      scannerId: "janesmith101",
       timestamp: new Date(),
       plusOne: true,
     },
     {
-      netId: "janesmith101",
+      netId: "johndoe24",
       eventId: 6,
       scannerId: "janesmith101",
       timestamp: new Date(),

@@ -112,7 +112,7 @@ const raffleEligibleHavingClause =
     .map((eventType) => {
       return `sum(case when type = '${eventType}' then 1 else 0 end) >= 1`;
     })
-    .join(" AND ") + " AND count(*) >= 10";
+    .join(" AND ") + " AND count(Event.eventId) >= 10";
 
 app.get("/GetEventSummaries", async (req, res) => {
   console.log("Event Summaries");
