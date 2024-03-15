@@ -76,4 +76,4 @@ Given another week to implement more features, I would include:
 
 ## Conclusion
 
-Thank you for taking the time to consider my sumbmission to the AIS Winter 2024 Hackathon! I had a blast developing it, and if you have any issues getting it up and running, reach out and let me know at cgp27@byu.edu.
+Thank you for taking the time to consider my sumbmission to the AIS Winter 2024 Hackathon! I had a blast developing it, and if you have any issues getting it up and running, reach out and let me know at *actually just message toph*.
